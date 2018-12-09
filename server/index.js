@@ -20,14 +20,17 @@ const httpsServer = https.createServer(httpsOptions, (req, res) => {
 });
 
 const buildServer = (req, res) => {
+	//get the requested url and parse it.
 	const parsedUrl = url.parse(req.url, true);
 	const path = parsedUrl.pathname;
 
+	//get query parameters, request method, and headers
 	const trimmedPath = path.replace(/^\/+|\/+$/g, '');
 	const query = parsedUrl.query;
 	const method = req.method.toLowerCase();
 	const headers = req.headers;
 
+	//get the payload if any.
 	const decoder = new StringDecoder('utf-8');
 	let buffer = '';
 	req.on('data', (data) => {
