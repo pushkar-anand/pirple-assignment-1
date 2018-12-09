@@ -11,8 +11,8 @@ const httpServer = http.createServer((req, res) => {
 });
 
 const httpsOptions = {
-	'key': fs.readFileSync("./keys/key.pem"),
-	'cert': fs.readFileSync("./keys/cert.pem")
+	'key': fs.readFileSync(__dirname + "/keys/key.pem"),
+	'cert': fs.readFileSync(__dirname + "/keys/cert.pem")
 };
 
 const httpsServer = https.createServer(httpsOptions, (req, res) => {
