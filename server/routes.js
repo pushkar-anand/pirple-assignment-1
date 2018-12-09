@@ -1,6 +1,7 @@
 const handler = require("./handler");
 
 const routes = {
-	"hello": handler.hello
+	"hello": handler.hello,
+	"undefined": handler.notFound
 };
 module.exports = routes;

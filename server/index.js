@@ -5,6 +5,7 @@ const url = require("url");
 const StringDecoder = require('string_decoder').StringDecoder;
 
 const config = require("./config");
+const routes = require("./routes");
 
 const httpServer = http.createServer((req, res) => {
 	buildServer(req, res);
@@ -39,6 +40,25 @@ const buildServer = (req, res) => {
 	req.on('end', () => {
 		buffer += decoder.end();
 
+		//build data
+		const data = {
+			"path": trimmedPath,
+			"query": query,
+			"method": method,
+			"headers": headers,
+			"payload": buffer
+		};
+		//select handler
+		const handler = routes[trimmedPath] || routes.undefined;
+
+		const callback = (statusCode, payload) => {
+			statusCode = typeof (statusCode) == 'number' ? statusCode : 200;
+			res.setHeader('Content-Type', 'application/json');
+			res.writeHead(statusCode);
+			res.end(JSON.stringify(payload || {}));
+		};
+		//call handler
+		handler(data, callback);
 	});
 
 
